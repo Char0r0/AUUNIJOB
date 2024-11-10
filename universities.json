@@ -1,0 +1,40 @@
+{
+    "universities": [
+        {
+            "name": "USYD",
+            "url": "https://usyd.wd3.myworkdayjobs.com/USYD_EXTERNAL_CAREER_SITE"
+        },
+        {
+            "name": "UNSW",
+            "url": "https://external-careers.jobs.unsw.edu.au/cw/en/listing/"
+        },
+        {
+            "name": "UQ",
+            "url": "https://uq.wd3.myworkdayjobs.com/uqcareers"
+        },
+        {
+            "name": "ANU",
+            "url": "https://jobs.anu.edu.au/jobs/search"
+        },
+        {
+            "name": "MELB",
+            "url": "https://jobs.unimelb.edu.au/en/listing/"
+        },
+        {
+            "name": "MONASH",
+            "url": "https://www.monash.edu/jobs/jobs-at-monash"
+        },
+        {
+            "name": "UWA",
+            "url": "https://external.jobs.uwa.edu.au/en/listing/"
+        },
+        {
+            "name": "ADELAIDE",
+            "url": "https://careers.adelaide.edu.au/cw/en/listing/"
+        },
+        {
+            "name": "UCANBERRA",
+            "url": "https://uctalent.canberra.edu.au/en/listing/"
+        }
+    ]
+}
