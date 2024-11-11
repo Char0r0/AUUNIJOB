@@ -40,7 +40,7 @@ while True:
         
         # Check if it already exists
         if not any(job['Job Title'] == title and job['Link'] == full_link for job in job_data):
-            job_data.append({"Job Title": title, "Link": full_link})  # Add job information to the list
+            job_data.append({"Job Title": title,"UniName": "UNSW", "Link": full_link})  # Add job information to the list
 
     print(f"Page {page} processed, found {len(job_links)} jobs.")  # Print the number of jobs found on the current page
     page += 1  # Increment page number
@@ -53,7 +53,7 @@ print(job_data)  # Print job data
 csv_file_path = 'tables/unsw_job_listings.csv'
 os.makedirs('tables', exist_ok=True)  # Ensure tables directory exists
 with open(csv_file_path, mode='w', newline='', encoding='utf-8') as csv_file:
-    fieldnames = ['Job Title', 'Link']
+    fieldnames = ['Job Title','UniName', 'Link']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
     writer.writeheader()  # Write header

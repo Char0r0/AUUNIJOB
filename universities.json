@@ -35,6 +35,10 @@
         {
             "name": "UCANBERRA",
             "url": "https://uctalent.canberra.edu.au/en/listing/"
+        },
+        {
+            "name": "BOND",
+            "url": "https://bond.edu.au/our-university/careers-at-bond/jobs-at-bond"
         }
     ]
 }
