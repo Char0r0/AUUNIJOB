@@ -15,4 +15,4 @@ After installing the required libraries, you can run the `main.py` script using 
 python3 main.py
 
 
-Make sure you are in the project directory where the `unijob` folder is located before running the command.
+Make sure you are in the project directory where the `unijob` folder is located before running the command. 
