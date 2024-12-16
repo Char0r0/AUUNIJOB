@@ -34,7 +34,7 @@ def scrape_university(scraper_file):
     
     try:
         # Run the corresponding university scraper
-        file_path = os.path.join('uniJobCatch', scraper_file)
+        file_path = os.path.join('../scrapers', scraper_file)
         import_module_from_file(file_path)
         
         # Read generated CSV file
@@ -57,7 +57,7 @@ def run_scrapers():
     os.makedirs('tables', exist_ok=True)
     
     # Get all .py files from uniJobCatch directory
-    scraper_files = [f for f in os.listdir('uniJobCatch') if f.endswith('.py')]
+    scraper_files = [f for f in os.listdir('../scrapers') if f.endswith('.py')]
     all_jobs = []
     
     # Use ThreadPoolExecutor to run scrapers in parallel
