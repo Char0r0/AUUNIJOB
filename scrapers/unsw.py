@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import os
 
 # Read university information from JSON file
-with open('universities.json', 'r', encoding='utf-8') as f:
+with open('../universities.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Get the URL for UNSW

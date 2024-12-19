@@ -16,15 +16,15 @@ service = Service('/usr/local/bin/chromedriver')  # Replace with your chromedriv
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Read university URLs
-with open('universities.json', 'r', encoding='utf-8') as f:
+with open('../universities.json', 'r', encoding='utf-8') as f:
     universities = json.load(f)['universities']
 
 # Find USYD's URL
-usyd_url = next((uni['url'] for uni in universities if uni['name'] == "USYD"), None)
+uq_url = next((uni['url'] for uni in universities if uni['name'] == "UQ"), None)
 
-if usyd_url:
-    driver.get(usyd_url)  # Directly request USYD's URL
-    print(f"Requested URL: {usyd_url}")  # Print the requested URL
+if uq_url:
+    driver.get(uq_url)  # Directly request USYD's URL
+    print(f"Requested URL: {uq_url}")  # Print the requested URL
 
     # Wait for the page to load
     driver.implicitly_wait(10)
@@ -44,8 +44,8 @@ if usyd_url:
 
         for link in links:
             job_title = link.text.strip()  # Extract job title
-            job_link = usyd_url + link.get_attribute("href")  # Extract link
-            job_data.append({"Job Title": job_title, "UniName": "USYD", "Link": job_link})  # Add job data to the list
+            job_link = uq_url + link.get_attribute("href")  # Extract link
+            job_data.append({"Job Title": job_title, "UniName": "UQ", "Link": job_link})  # Add job data to the list
 
         # Find and click the next page button
         try:
@@ -64,7 +64,7 @@ if usyd_url:
     print(df)  # Print the table
 
     # Output as a CSV file
-    df.to_csv('tables/usyd_job_listings.csv', index=False, encoding='utf-8-sig')  # Output as a CSV file
-    print("usyd output to: usyd_job_listings.csv")
+    df.to_csv('tables/uq_job_listings.csv', index=False, encoding='utf-8-sig')  # Output as a CSV file
+    print("usyd output to: uq_job_listings.csv")
 
 driver.quit()  # Close the browser
