@@ -16,10 +16,10 @@ service = Service('/usr/local/bin/chromedriver')  # Replace with your chromedriv
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Read university URLs
-with open('../universities.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(os.path.dirname(__file__), '..', 'universities.json'), 'r', encoding='utf-8') as f:
     universities = json.load(f)['universities']
 
-# Find USYD's URL
+# Find UQ's URL
 uq_url = next((uni['url'] for uni in universities if uni['name'] == "UQ"), None)
 
 if uq_url:
@@ -31,10 +31,6 @@ if uq_url:
 
     job_data = []  # Create an empty list to store job data
 
-    # Ensure the tables folder exists
-    if not os.path.exists('tables'):
-        os.makedirs('tables')
-
     while True:
         # Locate <a> tags using data-automation-id
         links = driver.find_elements(By.CSS_SELECTOR, "a[data-automation-id='jobTitle']")
@@ -44,7 +40,7 @@ if uq_url:
 
         for link in links:
             job_title = link.text.strip()  # Extract job title
-            job_link = uq_url + link.get_attribute("href")  # Extract link
+            job_link = link.get_attribute("href")  # 直接获取完整链接
             job_data.append({"Job Title": job_title, "UniName": "UQ", "Link": job_link})  # Add job data to the list
 
         # Find and click the next page button
@@ -63,8 +59,13 @@ if uq_url:
     df = pd.DataFrame(job_data)
     print(df)  # Print the table
 
-    # Output as a CSV file
-    df.to_csv('tables/uq_job_listings.csv', index=False, encoding='utf-8-sig')  # Output as a CSV file
-    print("usyd output to: uq_job_listings.csv")
+    # Ensure 'tables' directory exists in the project root
+    tables_dir = os.path.join(os.path.dirname(__file__), '..', 'tables')
+    os.makedirs(tables_dir, exist_ok=True)
+
+    # Output CSV file
+    output_path = os.path.join(tables_dir, 'uq_job_listings.csv')
+    df.to_csv(output_path, index=False, encoding='utf-8-sig')
+    print(f"uq output to: {output_path}")
 
 driver.quit()  # Close the browser

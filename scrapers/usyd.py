@@ -3,11 +3,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import json
-import pandas as pd  # Import pandas library
-import time  # Import time library
+import pandas as pd
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os  # Import os library
+import os
 
 # Set up Chrome driver
 chrome_options = Options()
@@ -16,24 +16,20 @@ service = Service('/usr/local/bin/chromedriver')  # Replace with your chromedriv
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Read university URLs
-with open('../universities.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(os.path.dirname(__file__), '..', 'universities.json'), 'r', encoding='utf-8') as f:
     universities = json.load(f)['universities']
 
 # Find USYD's URL
 usyd_url = next((uni['url'] for uni in universities if uni['name'] == "USYD"), None)
 
 if usyd_url:
-    driver.get(usyd_url)  # Directly request USYD's URL
-    print(f"Requested URL: {usyd_url}")  # Print the requested URL
+    driver.get(usyd_url)
+    print(f"Requested URL: {usyd_url}")
 
     # Wait for the page to load
     driver.implicitly_wait(10)
 
-    job_data = []  # Create an empty list to store job data
-
-    # Ensure the tables folder exists
-    if not os.path.exists('tables'):
-        os.makedirs('tables')
+    job_data = []
 
     while True:
         # Locate <a> tags using data-automation-id
@@ -43,28 +39,31 @@ if usyd_url:
             break
 
         for link in links:
-            job_title = link.text.strip()  # Extract job title
-            job_link = usyd_url + link.get_attribute("href")  # Extract link
-            job_data.append({"Job Title": job_title, "UniName": "USYD", "Link": job_link})  # Add job data to the list
+            job_title = link.text.strip()
+            job_link = link.get_attribute("href")  # 直接获取完整链接
+            job_data.append({"Job Title": job_title, "UniName": "USYD", "Link": job_link})
 
         # Find and click the next page button
         try:
-            # Use explicit wait to find the "next" button
             next_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='next']"))
             )
-            next_button.click()  # Click the next page button
-            time.sleep(3)  # Wait for the page to load
+            next_button.click()
+            time.sleep(3)
         except Exception as e:
-            # print("No more pages or error occurred:", e)
             break
 
     # Create DataFrame and output as a table
     df = pd.DataFrame(job_data)
-    print(df)  # Print the table
+    print(df)
 
-    # Output as a CSV file
-    df.to_csv('tables/usyd_job_listings.csv', index=False, encoding='utf-8-sig')  # Output as a CSV file
-    print("usyd output to: usyd_job_listings.csv")
+    # Ensure 'tables' directory exists in the project root
+    tables_dir = os.path.join(os.path.dirname(__file__), '..', 'tables')
+    os.makedirs(tables_dir, exist_ok=True)
 
-driver.quit()  # Close the browser
+    # Output CSV file
+    output_path = os.path.join(tables_dir, 'usyd_job_listings.csv')
+    df.to_csv(output_path, index=False, encoding='utf-8-sig')
+    print(f"usyd output to: {output_path}")
+
+driver.quit()

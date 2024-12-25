@@ -30,3 +30,9 @@ Thumbs.db
 
 
 logs.md
+
+.env
+
+# 忽略所有 CSV 文件，但不忽略 tables 目录
+*.csv
+!tables/
